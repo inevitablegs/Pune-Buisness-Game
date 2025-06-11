@@ -10,10 +10,11 @@ public class Dice : MonoBehaviour
 
     private bool isActive = true;
 
-    public void SetDiceActive(bool active)
+    public GameObject diceButton; // assign in inspector
+
+    public void SetDiceActive(bool value)
     {
-        isActive = active;
-        GetComponent<Button>().interactable = active;
+        diceButton.SetActive(value);
     }
 
     public void RollDice()
@@ -34,6 +35,14 @@ public class Dice : MonoBehaviour
         int diceValue = Random.Range(1, 7);
         diceImage.sprite = diceFaces[diceValue - 1];
 
-        gameManager.OnDiceRolled(diceValue);
+        if (gameManager != null)
+        {
+            gameManager.OnDiceRolled(diceValue);
+        }
+        else
+        {
+            Debug.LogError("❌ Dice has no reference to GameManager!");
+        }
+
     }
 }

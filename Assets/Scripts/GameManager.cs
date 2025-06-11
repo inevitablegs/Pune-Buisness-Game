@@ -3,22 +3,43 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    public List<PlayerMovement> players;
+    public static GameManager Instance;
+
+    public List<PlayerMovement> players = new List<PlayerMovement>();
     public Dice dice;
 
     private int currentPlayerIndex = 0;
     private bool isRolling = false;
 
-    void Start()
+    void Awake()
     {
-        SetCurrentPlayerTurn(true);
+        Instance = this;
+    }
+
+    public void RegisterPlayer(PlayerMovement player)
+    {
+        players.Add(player);
+
+        // Start game only when all players are registered (optional)
+        if (players.Count >= 2) // adjust for your min players
+        {
+            SetCurrentPlayerTurn(true);
+        }
     }
 
     public void OnDiceRolled(int steps)
     {
         isRolling = true;
         SetCurrentPlayerTurn(false);
-        players[currentPlayerIndex].MoveSteps(steps, OnPlayerMoveComplete);
+
+        if (players[currentPlayerIndex] != null)
+        {
+            players[currentPlayerIndex].MoveSteps(steps, OnPlayerMoveComplete);
+        }
+        else
+        {
+            Debug.LogError("❌ current player is null!");
+        }
     }
 
     private void OnPlayerMoveComplete()
@@ -30,6 +51,9 @@ public class GameManager : MonoBehaviour
 
     void SetCurrentPlayerTurn(bool active)
     {
-        dice.SetDiceActive(active); // Enable or disable dice based on turn
+        if (dice != null)
+        {
+            dice.SetDiceActive(active);
+        }
     }
 }
