@@ -14,4 +14,6 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log("Connected to Photon Master Server.");
         PhotonNetwork.AutomaticallySyncScene = true;
     }
+
+    
 }

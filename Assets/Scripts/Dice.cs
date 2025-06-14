@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Photon.Pun;
 
 public class Dice : MonoBehaviour
 {
@@ -21,6 +22,13 @@ public class Dice : MonoBehaviour
     {
         if (!isActive) return;
         StartCoroutine(RollAnimation());
+    }
+
+    [PunRPC]
+    public void EnableDice(bool active)
+    {
+        isActive = active;
+        diceButton.SetActive(active);
     }
 
     IEnumerator RollAnimation()

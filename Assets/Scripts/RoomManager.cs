@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class RoomManager : MonoBehaviourPunCallbacks
 {
     public InputField roomInput;
+    public int maxPlayers = 6;
 
     public void CreateRoom()
     {
@@ -13,7 +14,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         if (!string.IsNullOrEmpty(roomName))
         {
             RoomOptions options = new RoomOptions();
-            options.MaxPlayers = 4;
+            options.MaxPlayers = (byte)maxPlayers;
             PhotonNetwork.CreateRoom(roomName, options);
         }
     }
